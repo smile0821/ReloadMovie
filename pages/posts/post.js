@@ -1,7 +1,13 @@
 // pages/posts/post.js
 var postsData = require('../../data/posts-data.js')
 Page({
-
+  onDetail: function (event) {
+    var postId = event.currentTarget.dataset.postid;
+    console.log('postid:'+postId)
+    wx.navigateTo({
+      url: '../posts/post-detail/post-detail?postid=' + postId
+    })
+  },
   /**
    * 页面的初始数据
    */

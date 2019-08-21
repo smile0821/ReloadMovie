@@ -8,6 +8,13 @@ Page({
       url: '../posts/post-detail/post-detail?postid=' + postId
     })
   },
+
+  onSwapDetal: function(event){
+    var postId = event.target.dataset.postid;
+    wx.navigateTo({
+      url: '../posts/post-detail/post-detail?postid=' + postId
+    });
+  },
   /**
    * 页面的初始数据
    */

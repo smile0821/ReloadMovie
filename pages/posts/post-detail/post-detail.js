@@ -1,9 +1,12 @@
 var postData = require("../../../data/posts-data.js")
+var app = getApp();
 Page({
   data: {
     isPlayMusic:false
   },
   onLoad: function (options) {
+
+    var globalData = app.globalData;
     var postId = options.postid;
     this.data.currentPostId = postId;
     this.setData({ postDetail: postData.postList[postId] })
@@ -26,7 +29,34 @@ Page({
       postsCollected[postId] = false;
       wx.setStorageSync("posts_collected", postsCollected);
     }
+    if (app.globalData.g_isPlayingMusic && app.globalData.g_currentPlayMusicPostId === postId)
+    {
+      this.setData({
+        isPlayMusic: true
+      });
+    }
+    this.setMusicPlay();
   },
+
+  setMusicPlay: function(){
+    var that = this;
+    wx.onBackgroundAudioPlay(function () {
+      that.setData({
+        isPlayMusic: true
+      });
+      app.globalData.g_isPlayingMusic = true;
+      app.globalData.g_currentPlayMusicPostId = that.data.currentPostId
+    });
+
+    wx.onBackgroundAudioPause(function () {
+      that.setData({
+        isPlayMusic: false
+      });
+      app.globalData.g_isPlayingMusic = false;
+      app.globalData.g_currentPlayMusicPostId = null;
+    });
+  },
+
   onCollectionTap: function(event){
     // this.getPostsCollectedSyn();
     this.getPostsCollectedAsy();
@@ -86,7 +116,7 @@ Page({
         dataUrl: dataInfo.music.url,
         title: dataInfo.music.title,
         coverImgUrl: dataInfo.music.coverImg
-      }),
+      });
       this.setData({
         isPlayMusic: true
       });

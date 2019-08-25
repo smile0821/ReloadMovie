@@ -1,0 +1,8 @@
+<import src="../stars/star-template.wxml" />
+<template name="movieTemplate">
+  <view class="movie-container">
+    <image class="movie-img" src="/images/vr.png"></image>
+    <text class="movie-name">虚拟世界</text>
+    <template is="starTemplate" />
+  </view>
+</template>
